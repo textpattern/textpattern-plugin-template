@@ -2,7 +2,7 @@ h1. Plugin template for Textpattern CMS
 
 !http://textpattern.com/assets/img/branding/carver/carver-128px.svg(Textpattern Logo)!:http://textpattern.com
 
-h2#(docs). Developer documentation
+h2(#docs). Developer documentation
 
 Please refer to the "documentation pages on Extending Textpattern":http://www.textpattern.net/wiki/index.php?title=Extending_Textpattern.
 
