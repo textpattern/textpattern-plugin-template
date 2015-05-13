@@ -1,0 +1,12 @@
+.project
+.komodo.kpf
+.settings
+.buildpath
+.DS_Store
+.DS_Store?
+.Spotlight-V100
+.Trashes
+.idea/**
+Icon?
+ehthumbs.db
+Thumbs.db
