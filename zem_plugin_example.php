@@ -64,7 +64,7 @@ zem_type_something => Schreibe etwas:
 EOT;
 
 if (!defined('txpinterface'))
-	@include_once('zem_tpl.php');
+    @include_once('zem_tpl.php');
 
 if (0) {
 ?>
@@ -81,139 +81,147 @@ h1. Textile-formatted help goes here
 // ----------------------------------------------------
 // Example public side tags
 
-	// A simple self-closing tag
-	// <txp:zem_hello_world name="Bob" />
+// A simple self-closing tag
+// <txp:zem_hello_world name="Bob" />
 
-	function zem_hello_world($atts) {
-		extract(lAtts(array(
-			'name'  => gTxt('zem_default_name'),
-		),$atts));
+function zem_hello_world($atts) {
+    extract(lAtts(array(
+        'name'  => gTxt('zem_default_name'),
+    ),$atts));
 
-		// The returned value will replace the tag on the page
-		return gTxt('zem_greeting').$name;
-	}
+    // The returned value will replace the tag on the page
+    return gTxt('zem_greeting').$name;
+}
 
-	// A simple enclosing tag
-	// <txp:zem_lowercase>I LIKE SPAM</txp:lowercase>
+// A simple enclosing tag
+// <txp:zem_lowercase>I LIKE SPAM</txp:lowercase>
 
-	function zem_lowercase($atts, $thing='') {
-		return strtolower(parse($thing));
-	}
+function zem_lowercase($atts, $thing='') {
+    return strtolower(parse($thing));
+}
 
-	// A simple conditional tag
-	// <txp:zem_if_alice name="Alice">
-	// Alice!
-	// <txp:else />
-	// Not alice.
-	// </txp:zem_if_alice>
+// A simple conditional tag
+// <txp:zem_if_alice name="Alice">
+// Alice!
+// <txp:else />
+// Not alice.
+// </txp:zem_if_alice>
 
-	function zem_if_alice($atts, $thing) {
-		extract(lAtts(array(
-			'name'  => 'Bob',
-		),$atts));
+function zem_if_alice($atts, $thing) {
+    extract(lAtts(array(
+        'name'  => 'Bob',
+    ),$atts));
 
-		return parse(EvalElse($thing, ($name == 'Alice')));
-	}
+    return parse(EvalElse($thing, ($name == 'Alice')));
+}
 
 // ----------------------------------------------------
 // Example admin side plugin
 
-	// Add a new tab to the Content area.
-	// "test" is the name of the associated event; "testing" is the displayed title
-	if (@txpinterface == 'admin') {
-		$myevent = 'test';
-		$mytab = 'testing';
+// Add a new tab to the Content area.
+// "test" is the name of the associated event; "testing" is the displayed title
+if (txpinterface === 'admin') {
+    $myevent = 'test';
+    $mytab = 'testing';
 
-		// Set the privilege levels for our new event
-		add_privs($myevent, '1,2');
+    // Set the privilege levels for our new event
+    add_privs($myevent, '1,2');
 
-		// Add a new tab under 'extensions' associated with our event
-		register_tab("extensions", $myevent, $mytab);
+    // Add a new tab under 'extensions' associated with our event
+    register_tab("extensions", $myevent, $mytab);
 
-		// 'zem_admin_test' will be called to handle the new event
-		register_callback("zem_admin_test", $myevent);
+    // 'zem_admin_test' will be called to handle the new event
+    register_callback("zem_admin_test", $myevent);
 
-		// 'zem_admin_test_lifecycle' will be called on plugin installation, activation, deactivation, and deletion
-		register_callback("zem_admin_test_lifecycle", "plugin_lifecycle.zem_plugin_example");
+    // 'zem_admin_test_lifecycle' will be called on plugin installation, activation, deactivation, and deletion
+    register_callback("zem_admin_test_lifecycle", "plugin_lifecycle.zem_plugin_example");
 
-		// 'zem_admin_test_prefs' will be called from the Options link on the plugin tab
-		register_callback('zem_admin_test_prefs', 'plugin_prefs.zem_plugin_example');
+    // 'zem_admin_test_prefs' will be called from the Options link on the plugin tab
+    register_callback('zem_admin_test_prefs', 'plugin_prefs.zem_plugin_example');
 
-		// Set the privilege levels for our plugin's prefs event
-		add_privs('plugin_prefs.zem_plugin_example', '1');
+    // Set the privilege levels for our plugin's prefs event
+    add_privs('plugin_prefs.zem_plugin_example', '1');
 
-		// Emit additional CSS rules for the admin side
-		register_callback('zem_admin_test_style', 'admin_side', 'head_end');
-	}
+    // Emit additional CSS rules for the admin side
+    register_callback('zem_admin_test_style', 'admin_side', 'head_end');
+} elseif (txpinterface === 'public') {
+    // Register public tags.
+    if (class_exists('\Textpattern\Tag\Registry')) {
+        Txp::get('\Textpattern\Tag\Registry')
+            ->register('zem_hello_world')
+            ->register('zem_lowercase')
+            ->register('zem_if_alice');
+    }
+}
 
-	function zem_admin_test($event, $step) {
+function zem_admin_test($event, $step) {
 
-		// ps() returns the contents of POST vars, if any
-		$something = ps("something");
-		pagetop("Testing", (ps("do_something") ? "you typed: $something" : ""));
+    // ps() returns the contents of POST vars, if any
+    $something = ps("something");
+    pagetop("Testing", (ps("do_something") ? "you typed: $something" : ""));
 
-		// The eInput/sInput part of the form is important, setting the event and step respectively
+    // The eInput/sInput part of the form is important, setting the event and step respectively
 
-		echo "<div align=\"center\" style=\"margin-top:3em\">";
-		echo form(
-			tag("Test Form", "h3").
-			graf(gTxt('zem_type_something').
-				fInput("text", "something", $something, "edit", "", "", "20", "1").
-				fInput("submit", "do_something", "Go", "smallerbox").
-				eInput("test").sInput("step_a")
-			," style=\"text-align:center\"")
-		);
-		echo "</div>";
-	}
+    echo "<div align=\"center\" style=\"margin-top:3em\">";
+    echo form(
+        tag("Test Form", "h3").
+        graf(gTxt('zem_type_something').
+            fInput("text", "something", $something, "edit", "", "", "20", "1").
+            fInput("submit", "do_something", "Go", "smallerbox").
+            eInput("test").sInput("step_a")
+        ," style=\"text-align:center\"")
+    );
+    echo "</div>";
+}
 
-	// Act upon activation/deactivation, installation/deletion.
-	// $event will be "plugin_lifecycle.zem_plugin_example"
-	// $step will be one of "installed", "enabled", disabled", and "deleted"
-	function zem_admin_test_lifecycle($event, $step) {
-		// Enable/disable this plugin, then view source to see the output.
-		echo comment("$event $step").n;
-	}
+// Act upon activation/deactivation, installation/deletion.
+// $event will be "plugin_lifecycle.zem_plugin_example"
+// $step will be one of "installed", "enabled", disabled", and "deleted"
+function zem_admin_test_lifecycle($event, $step) {
+    // Enable/disable this plugin, then view source to see the output.
+    echo comment("$event $step").n;
+}
 
-	// Act upon plugin "Options" event.
-	// $event will be "plugin_prefs.zem_plugin_example"
-	function zem_admin_test_prefs($event, $step) {
-		$saved = false;
-		if (gps('save')) {
-			// save preferences...
-	  		$saved = gTxt('preferences_saved');
-	  	}
+// Act upon plugin "Options" event.
+// $event will be "plugin_prefs.zem_plugin_example"
+function zem_admin_test_prefs($event, $step) {
+    $saved = false;
+    if (gps('save')) {
+        // save preferences...
+        $saved = gTxt('preferences_saved');
+    }
 
-	  	pagetop(gTxt('zem_example_plugin_title'), $saved);
-		echo "<div class='zem_modal'></div>".
-			form(
-			n.hed(gTxt('zem_example_plugin_title'), 3).
-			($saved ? n.graf($saved, ' class="zem_confirmation"') : '').
-			n.graf('Hi there!').
-			n.eInput('plugin_prefs.zem_plugin_example').
-			n.graf(
-				fInput('submit', 'save', gTxt('save'), 'smallerbox', '', '', '', '', 'zem_example_plugin_save').
-				href(gTxt('cancel'), '?event=plugin', ' id="zem_example_plugin_cancel"'),
-				' id="zem_example_plugin_buttons"'),
-	        '', '', 'post', 'zem_modal'
-		);
-	}
+    pagetop(gTxt('zem_example_plugin_title'), $saved);
+    echo "<div class='zem_modal'></div>".
+        form(
+        n.hed(gTxt('zem_example_plugin_title'), 3).
+        ($saved ? n.graf($saved, ' class="zem_confirmation"') : '').
+        n.graf('Hi there!').
+        n.eInput('plugin_prefs.zem_plugin_example').
+        n.graf(
+            fInput('submit', 'save', gTxt('save'), 'smallerbox', '', '', '', '', 'zem_example_plugin_save').
+            href(gTxt('cancel'), '?event=plugin', ' id="zem_example_plugin_cancel"'),
+            ' id="zem_example_plugin_buttons"'),
+        '', '', 'post', 'zem_modal'
+    );
+}
 
-	// Emit additional CSS rules for the admin side at the end of the <head> element
-	function zem_admin_test_style($event, $step)
-	{
-		echo n.'<style type="text/css">
-	div.zem_modal{background-color:black;opacity:0.2;position:absolute;top:0;left:0;width:100%;height:100%}
-	form.zem_modal{z-index:1000;width:20em;position:absolute;top:30px;left:50%;margin-left:-10em;background-color:white;padding:20px;border:2px solid #fc3;}
-	form.zem_modal h3{border-bottom: 1px solid #ddd;padding-bottom:2px}
-	p.zem_confirmation{text-align:center;background-color:#ffffcc;border:1px solid #ffcc33;}
-	#zem_example_plugin_cancel{margin-left: 1em;}
-	#zem_example_plugin_buttons{border-top: 1px solid #ddd;padding-top:5px;margin-top:5px;}
-	</style>
-	<!--[if gte IE 5]>
-	<style type="text/css">div.zem_modal{filter: alpha(opacity = 20);}</style>
-	<![endif]-->'
-		.n;
-	}
+// Emit additional CSS rules for the admin side at the end of the <head> element
+function zem_admin_test_style($event, $step)
+{
+    echo n.'<style type="text/css">
+div.zem_modal{background-color:black;opacity:0.2;position:absolute;top:0;left:0;width:100%;height:100%}
+form.zem_modal{z-index:1000;width:20em;position:absolute;top:30px;left:50%;margin-left:-10em;background-color:white;padding:20px;border:2px solid #fc3;}
+form.zem_modal h3{border-bottom: 1px solid #ddd;padding-bottom:2px}
+p.zem_confirmation{text-align:center;background-color:#ffffcc;border:1px solid #ffcc33;}
+#zem_example_plugin_cancel{margin-left: 1em;}
+#zem_example_plugin_buttons{border-top: 1px solid #ddd;padding-top:5px;margin-top:5px;}
+</style>
+<!--[if gte IE 5]>
+<style type="text/css">div.zem_modal{filter: alpha(opacity = 20);}</style>
+<![endif]-->'
+    .n;
+}
 # --- END PLUGIN CODE ---
 
 ?>
