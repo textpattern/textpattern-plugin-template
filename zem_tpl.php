@@ -55,6 +55,12 @@ function compile_plugin($file='') {
     @include('classTextile.php');
 
     if (defined('txpath')) {
+        global $trace;
+
+        include txpath.'/lib/class.trace.php';
+        include txpath.'/vendors/Textpattern/Loader.php';
+
+        $trace = new Trace();
         $loader = new \Textpattern\Loader(txpath.'/lib');
         $loader->register();
     }
