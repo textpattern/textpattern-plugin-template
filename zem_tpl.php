@@ -53,21 +53,26 @@ function compile_plugin($file='') {
 
     // This is for bc; and for help that needs to use it.
     @include('classTextile.php');
-
-    if (defined('txpath')) {
+    if (class_exists('Textile')) {
+        $textile = new Textile();
+        $plugin['help'] = $textile->TextileThis($plugin['help']);
+    } elseif (defined('txpath')) {
         global $trace;
-
+        
+        include txpath.'/lib/txplib_misc.php';
         include txpath.'/lib/class.trace.php';
         include txpath.'/vendors/Textpattern/Loader.php';
 
         $trace = new Trace();
+        $loader = new \Textpattern\Loader(txpath.'/vendors');
+        $loader->register();
         $loader = new \Textpattern\Loader(txpath.'/lib');
         $loader->register();
-    }
-
-    if (class_exists('Textile')) {
-        $textile = new Textile();
-        $plugin['help'] = $textile->TextileThis($plugin['help']);
+        
+        if (class_exists('Netcarver\\Textile\\Parser')) {
+            $textile = new \Netcarver\Textile\Parser();
+            $plugin['help'] = $textile->textileThis($plugin['help']);
+        }
     }
 
     $plugin['md5'] = md5( $plugin['code'] );
