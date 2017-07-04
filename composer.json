@@ -1,0 +1,16 @@
+{
+  "name": "repo_account_here/repo_name_here",
+  "description": "Short plugin description here",
+  "keywords": ["textpattern", "plugin", "another-keyword"],
+  "homepage": "https://github.com/example/example",
+  "license": "GPL-2.0",
+  "type": "textpattern-plugin",
+  "support": {
+    "issues": "https://github.com/example/example/issues",
+    "source": "https://github.com/example/example"
+  },
+  "require": {
+    "textpattern/lock": ">=4.5.0",
+    "textpattern/installer": "*"
+  }
+}

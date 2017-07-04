@@ -1,0 +1,10 @@
+{
+  "name": "plugin_name_here",
+  "description": "Short plugin description here",
+  "version": "0.0.0",
+  "type": 0,
+  "author": "Author Name",
+  "author_uri": "https://example.com/",
+  "order": 0,
+  "flags": 0
+}
