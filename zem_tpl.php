@@ -52,17 +52,21 @@ function compile_plugin($file='') {
     $plugin['help_raw'] = $plugin['help'];
 
     // This is for bc; and for help that needs to use it.
-    @include('classTextile.php');
-
     if (defined('txpath')) {
         global $trace;
 
+        include txpath.'/lib/txplib_misc.php';
         include txpath.'/lib/class.trace.php';
         include txpath.'/vendors/Textpattern/Loader.php';
 
         $trace = new Trace();
-        $loader = new \Textpattern\Loader(txpath.'/lib');
+
+        $loader = new \Textpattern\Loader(txpath.'/vendors');
         $loader->register();
+
+        require txpath.'/lib/classTextile.php';
+    } else {
+        @include('classTextile.php');
     }
 
     if (class_exists('Textile')) {
