@@ -1,13 +1,13 @@
 # Plugin template for Textpattern CMS
 
-[![Textpattern Logo](https://textpattern.io/assets/img/branding/carver/carver-128px.svg)](http://textpattern.com/)
+[![Textpattern Logo](https://textpattern.com/assets/img/branding/carver/carver-128px.svg)](http://textpattern.com/)
 
 ## Developer documentation
 
 Refer to the
-[Textpattern plugin development](https://docs.textpattern.io/development/)
+[Textpattern plugin development](https://docs.textpattern.com/development/)
 documentation, and notably the
-[Plugin template](https://docs.textpattern.io/development/plugin-template-help)
+[Plugin template](https://docs.textpattern.com/development/plugin-template-help)
 page.
 
 ## Legal
