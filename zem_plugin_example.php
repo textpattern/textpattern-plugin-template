@@ -50,16 +50,16 @@ $plugin['flags'] = PLUGIN_HAS_PREFS | PLUGIN_LIFECYCLE_NOTIFY;
 // Plugin 'textpack' is optional. It provides i18n strings to be used in conjunction with gTxt().
 $plugin['textpack'] = <<< EOT
 #@public
-#@language en-gb
+#@language en, en-gb, en-us
 zem_greeting => Hello,
 zem_default_name => Alice
-#@language de-de
+#@language de
 zem_greeting => Hallo,
 zem_default_name => Elise
 #@test
-#@language en-gb
+#@language en, en-gb, en-us
 zem_type_something => Type something:
-#@language de-de
+#@language de
 zem_type_something => Schreibe etwas:
 EOT;
 
