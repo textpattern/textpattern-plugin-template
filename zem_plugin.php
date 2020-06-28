@@ -57,10 +57,10 @@ if (!defined('PLUGIN_LIFECYCLE_NOTIFY')) define('PLUGIN_LIFECYCLE_NOTIFY', 0x000
 /** Uncomment me, if you need a textpack
 $plugin['textpack'] = <<< EOT
 #@admin
-#@language en-gb
+#@language en, en-gb, en-us
 abc_sample_string => Sample String
 abc_one_more => One more
-#@language de-de
+#@language de
 abc_sample_string => Beispieltext
 abc_one_more => Noch einer
 EOT;
