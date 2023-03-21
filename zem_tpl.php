@@ -15,7 +15,8 @@ if (empty($test)) {
 
 // -----------------------------------------------------
 
-function extract_section($lines, $section) {
+function extract_section($lines, $section)
+{
     $result = "";
 
     $start_delim = "# --- BEGIN PLUGIN $section ---";
@@ -29,11 +30,13 @@ function extract_section($lines, $section) {
     return join("\n", $content);
 }
 
-function compile_plugin($file='') {
+function compile_plugin($file = '')
+{
     global $plugin;
 
-    if (empty($file))
+    if (empty($file)) {
         $file = $_SERVER['SCRIPT_FILENAME'];
+    }
 
     if (!isset($plugin['name'])) {
         $plugin['name'] = basename($file, '.php');
@@ -41,7 +44,8 @@ function compile_plugin($file='') {
 
     // Read the contents of this file, and strip line ends.
     $content = file($file);
-    for ($i=0; $i < count($content); $i++) {
+
+    for ($i = 0; $i < count($content); $i++) {
         $content[$i] = rtrim($content[$i]);
     }
 
@@ -52,7 +56,10 @@ function compile_plugin($file='') {
     $plugin['help_raw'] = $plugin['help'];
 
     // This is for bc; and for help that needs to use it.
-    if (defined('txpath')) {
+    if (class_exists('Textile')) {
+        $textile = new Textile();
+        $plugin['help'] = $textile->parse($plugin['help']);
+    } elseif (defined('txpath')) {
         global $trace;
 
         include txpath.'/lib/txplib_misc.php';
@@ -63,15 +70,13 @@ function compile_plugin($file='') {
 
         $loader = new \Textpattern\Loader(txpath.'/vendors');
         $loader->register();
+        $loader = new \Textpattern\Loader(txpath.'/lib');
+        $loader->register();
 
-        require txpath.'/lib/classTextile.php';
-    } else {
-        @include('classTextile.php');
-    }
-
-    if (class_exists('Textile')) {
-        $textile = new Textile();
-        $plugin['help'] = $textile->TextileThis($plugin['help']);
+        if (class_exists('\Netcarver\Textile\Parser')) {
+            $textile = new Netcarver\Textile\Parser();
+            $plugin['help'] = $textile->parse($plugin['help']);
+        }
     }
 
     $plugin['md5'] = md5( $plugin['code'] );
