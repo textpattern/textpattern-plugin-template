@@ -88,7 +88,7 @@ function compile_plugin($file = '')
 # {$plugin['author_uri']}
 
 # ......................................................................
-# This is a plugin for Textpattern - http://textpattern.com/
+# This is a plugin for Textpattern - https://textpattern.com/
 # To install: textpattern > admin > plugins
 # Paste the following text into the 'Install plugin' box:
 # ......................................................................
